@@ -17,7 +17,7 @@ resource "ibm_is_vpc" "vpc1" {
 }
 
 resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
-    name = "fip_public_facing_sg_web_admin"
+    name = "fip-public-facing-sg-web-admin"
     vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
@@ -43,7 +43,7 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp80" {
 
 
 resource "ibm_is_security_group" "private_facing_sg_db_admin" {
-    name = "private_facing_sg_db_admin"
+    name = "private-facing-sg-db-admin"
     vpc = "${ibm_is_vpc.vpc1.id}"
 }
 
@@ -80,7 +80,7 @@ resource "ibm_is_instance" "web-instancez01" {
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
-  network_interfaces.security_groups = "fip_public_facing_sg_web_admin"
+  primary_network_interface.security_groups = ["fip_public_facing_sg_web_admin"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
