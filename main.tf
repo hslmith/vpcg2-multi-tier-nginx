@@ -18,10 +18,10 @@ resource "ibm_is_vpc" "vpc1" {
 
 resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
     name = "fip_public_facing_sg_web_admin"
-    vpc = "${ibm_is_vpc.vpc1.id}"
+    vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
-/*
+
 resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
     group = "${ibm_is_security_group.fip_public_facing_sg_web_admin}"
     direction = "inbound"
@@ -31,6 +31,7 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
       port_max = "22"
     }
 
+/*
 
 resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp80" {
     group = "${ibm_is_security_group.fip_public_facing_sg_web_admin}"
