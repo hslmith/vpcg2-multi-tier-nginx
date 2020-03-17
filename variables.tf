@@ -34,6 +34,14 @@ variable "ssh_key_name" {
   description = "Name of existing VPC SSH Key"
 }
 
+variable "web_server_count" {
+  default = 2
+}
+
+ariable "db_server_count" {
+  default = 1
+}
+
 variable "image" {
   default = "r006-14140f94-fcc4-11e9-96e7-a72723715315"
   description = "OS Image ID to be used for virtual instances"

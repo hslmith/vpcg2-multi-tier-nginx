@@ -37,8 +37,9 @@ resource "ibm_is_subnet" "subnet2" {
   depends_on      = ["ibm_is_vpc_address_prefix.vpc-ap2"]
 }
 
-resource "ibm_is_instance" "instance1" {
-  name    = "instance1"
+resource "ibm_is_instance" "web-instancez01" {
+  count   = "${var.web_server_count}"
+  name    = "webz01-${count.index+1}"
   image   = "${var.image}"
   profile = "${var.profile}"
 
@@ -51,8 +52,8 @@ resource "ibm_is_instance" "instance1" {
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
-resource "ibm_is_instance" "instance2" {
-  name    = "instance2"
+resource "ibm_is_instance" "instancez01" {
+  name    = "instancez02"
   image   = "${var.image}"
   profile = "${var.profile}"
 
