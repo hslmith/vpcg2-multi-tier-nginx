@@ -30,7 +30,7 @@ variable "zone2_cidr" {
 }
 
 variable "ssh_key_name" {
-  default = ""
+  default = "default"
   description = "Name of existing VPC SSH Key"
 }
 
