@@ -17,12 +17,11 @@ resource "ibm_is_vpc" "vpc1" {
 }
 
 resource "ibm_is_security_group" "public_facing_sg" {
-    name = "public-facing-sg1"
+    name = "${var.vpc_nanme}-public-facing-sg1"
     vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
 resource "ibm_is_security_group_rule" "public_facing_tcp22" {
-//    depends_on = [ibm_is_floating_ip.fip1]
     group = "${ibm_is_security_group.public_facing_sg.id}"
     direction = "inbound"
     remote = "0.0.0.0/0"
@@ -42,9 +41,18 @@ resource "ibm_is_security_group_rule" "public_facing_sg_tcp80" {
     }
 }
 
+resource "ibm_is_security_group_rule" "public_facing_icmp" {
+    group = "${ibm_is_security_group.public_facing_sg.id}"
+    direction = "ingress"
+    remote = "0.0.0.0/0"
+    icmp = {
+      code = "0"
+      type = "8"
+    }
+}
 
 resource "ibm_is_security_group" "private_facing_sg" {
-    name = "private-facing-sg"
+    name = "${var.vpc_nanme}-private-facing-sg"
     vpc = "${ibm_is_vpc.vpc1.id}"
 }
 
@@ -73,7 +81,6 @@ resource "ibm_is_subnet" "subnet1" {
 //Web Server(s)
 
 resource "ibm_is_instance" "web-instancez01" {
-  depends_on      = ["ibm_is_security_group.public_facing_sg"]
   count   = "${var.web_server_count}"
   name    = "webz01-${count.index+1}"
   image   = "${var.image}"
@@ -81,11 +88,11 @@ resource "ibm_is_instance" "web-instancez01" {
 
   primary_network_interface = {
     subnet = "${ibm_is_subnet.subnet1.id}"
+    security_groups = ["${ibm_is_security_group.public_facing_sg.id}"]
   }
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
-  primary_network_interface.security_groups = "${ibm_is_security_group.public_facing_sg.id}"
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
