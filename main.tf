@@ -103,5 +103,5 @@ resource "ibm_is_instance" "db-instancez01" {
 resource "ibm_is_floating_ip" "floatingip1" {
   count   = "${var.web_server_count}"
   name = "fip1"
-  target = "${ibm_is_instance.webz01-${count.index+1}.primary_network_interface.0.id}"
+  target = "${ibm_is_instance.webzinstancez01.*.primary_network_interface.0.id}"
 }
