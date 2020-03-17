@@ -16,12 +16,13 @@ resource "ibm_is_vpc" "vpc1" {
   address_prefix_management = "manual"
 }
 
-resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
-    name = "fip-public-facing-sg-web-admin"
+resource "ibm_is_security_group" "public_facing_sg" {
+    name = "public-facing-sg1"
     vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
-resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
+resource "ibm_is_security_group_rule" "public_facing_tcp22" {
+//    depends_on = [ibm_is_floating_ip.fip1]
     group = "${ibm_is_security_group.fip_public_facing_sg_web_admin.id}"
     direction = "inbound"
     remote = "0.0.0.0/0"
@@ -41,6 +42,10 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp80" {
     }
 }
 
+resource "ibm_is_security_group_network_interface_attachment" "sgnic1" {
+  security_group    = ${ibm_is_security_group.public-facing-sg1.id}
+  network_interface = ${ibm_is_instance.web-instancez01.*.primary_network_interface.0.id}
+}
 
 resource "ibm_is_security_group" "private_facing_sg_db_admin" {
     name = "private-facing-sg-db-admin"
@@ -80,7 +85,6 @@ resource "ibm_is_instance" "web-instancez01" {
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
-  primary_network_interface.security_groups = ["fip_public_facing_sg_web_admin"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
