@@ -47,7 +47,7 @@ resource "ibm_is_security_group_rule" "public_facing_sg_tcp80" {
 
 resource "ibm_is_security_group_rule" "public_facing_icmp" {
     group = "${ibm_is_security_group.public_facing_sg.id}"
-    direction = "ingress"
+    direction = "inbound"
     remote = "0.0.0.0/0"
     icmp = {
       code = "0"
