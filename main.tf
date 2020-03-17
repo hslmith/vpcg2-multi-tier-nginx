@@ -23,7 +23,7 @@ resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
 
 
 resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
-    group = "${ibm_is_security_group.fip_public_facing_sg_web_admin}"
+    group = "${ibm_is_security_group.fip_public_facing_sg_web_admin.id}"
     direction = "inbound"
     remote = "0.0.0.0/0"
     tcp = {
@@ -34,7 +34,7 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
 /*
 
 resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp80" {
-    group = "${ibm_is_security_group.fip_public_facing_sg_web_admin}"
+    group = "${ibm_is_security_group.fip_public_facing_sg_web_admin.id}"
     direction = "inbound"
     remote = "0.0.0.0/0"
     tcp = {
