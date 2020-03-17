@@ -29,6 +29,7 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
       port_min = "22"
       port_max = "22"
     }
+  }
 
 
 /////////////////////
