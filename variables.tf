@@ -58,17 +58,17 @@ variable "web_subnet_zone1" {
   default = "172.33.0.0/24"
 }
 
-variable "db-subnet-zone-1" {
+variable "db_subnet_zone_1" {
   default = "172.33.1.0/24"
 }
 
 
 
-variable "web-subnet-zone-2" {
+variable "web_subnet_zone_2" {
   default = "172.33.8.0/24"
 }
 
-variable "dbtier-subnet-zone-2" {
+variable "db_subnet_zone_2" {
   default = "172.33.1.9/24"
 }
 
