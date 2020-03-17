@@ -165,4 +165,3 @@ resource "ibm_is_instance" "db-instancez02" {
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 } 
-*/
