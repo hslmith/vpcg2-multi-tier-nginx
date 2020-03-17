@@ -62,13 +62,15 @@ resource "ibm_is_vpc_address_prefix" "vpc-ap1" {
 }
 
 resource "ibm_is_subnet" "subnet1" {
-  depends_on = ["ibm_is_security_group.public_facing_sg"]
   name            = "subnet1"
   vpc             = "${ibm_is_vpc.vpc1.id}"
   zone            = "${var.zone1}"
   ipv4_cidr_block = "${var.zone1_cidr}"
   depends_on      = ["ibm_is_vpc_address_prefix.vpc-ap1"]
 }
+
+
+//Web Server(s)
 
 resource "ibm_is_instance" "web-instancez01" {
   depends_on      = ["ibm_is_security_group.public_facing_sg"]
@@ -83,10 +85,13 @@ resource "ibm_is_instance" "web-instancez01" {
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
-  primary_network_interface.security_groups = ["${ibm_is_security_group.public_facing_sg.id}"]
+  primary_network_interface.security_groups = "${ibm_is_security_group.public_facing_sg.id}"
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
+
+
+//DB Server(s) 
 
 /*
 resource "ibm_is_instance" "db-instancez01" {
@@ -106,3 +111,9 @@ resource "ibm_is_instance" "db-instancez01" {
 
 */
 
+
+
+
+/////////////
+// LBaaS
+////////////
