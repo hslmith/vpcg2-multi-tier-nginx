@@ -71,6 +71,7 @@ resource "ibm_is_subnet" "subnet1" {
 }
 
 resource "ibm_is_instance" "web-instancez01" {
+  depends_on      = ["ibm_is_security_group.public_facing_sg"]
   count   = "${var.web_server_count}"
   name    = "webz01-${count.index+1}"
   image   = "${var.image}"
@@ -86,6 +87,8 @@ resource "ibm_is_instance" "web-instancez01" {
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
 
+
+/*
 resource "ibm_is_instance" "db-instancez01" {
   count   = "${var.db_server_count}"
   name    = "dbz01-${count.index+1}"
@@ -100,4 +103,6 @@ resource "ibm_is_instance" "db-instancez01" {
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
+
+*/
 
