@@ -62,7 +62,7 @@ resource "ibm_is_vpc_address_prefix" "vpc-ap1" {
 }
 
 resource "ibm_is_subnet" "subnet1" {
-  depends_on ["ibm_is_security_group.public_facing_sg"]
+  depends_on = ["ibm_is_security_group.public_facing_sg"]
   name            = "subnet1"
   vpc             = "${ibm_is_vpc.vpc1.id}"
   zone            = "${var.zone1}"
