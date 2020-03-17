@@ -99,9 +99,3 @@ resource "ibm_is_instance" "db-instancez01" {
   primary_network_interface.security_groups = ["${ibm_is_security_group.public_facing_sg}"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
-
-
-resource "ibm_is_floating_ip" "floatingip1" {
-  name = "fip1"
-  target = "${ibm_is_instance.web-instancez01.*.primary_network_interface.0.id}"
-}
