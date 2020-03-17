@@ -1,12 +1,11 @@
+////////////////
+//Define Zones
+////////////////
+
+
 variable "ibmcloud_region" {
   description = "Preferred IBM Cloud region to use for your infrastructure"
   default = "us-south"
-}
-
-
-variable "vpc_name" {
-  default = "vpc-demo003"
-  description = "Name of your VPC"
 }
 
 variable "zone1" {
@@ -19,15 +18,66 @@ variable "zone2" {
   description = "Define the 2nd zone of the region"
 }
 
+
+////////////////
+//Define VPC
+////////////////
+
+variable "vpc_name" {
+  default = "vpc-demo003"
+  description = "Name of your VPC"
+}
+
+
+variable "cis_resource_group" {
+  default = "default"
+}
+
+
+////////////////
+// Define CIDR
+////////////////
+
+
 variable "zone1_cidr" {
-  default = "172.16.1.0/24"
+  default = "172.33.1.0/21"
   description = "CIDR block to be used for zone 1"
 }
 
 variable "zone2_cidr" {
-  default = "172.16.2.0/24"
+  default = "172.33.8.0/21"
   description = "CIDR block to be used for zone 2"
 }
+
+
+////////////////////////////////
+// Define Subnets for zones
+////////////////////////////////
+
+variable "web_subnet_zone1" {
+  default = "172.33.0.0/24"
+}
+
+variable "db-subnet-zone-1" {
+  default = "172.33.1.0/24"
+}
+
+
+
+variable "web-subnet-zone-2" {
+  default = "172.33.8.0/24"
+}
+
+variable "dbtier-subnet-zone-2" {
+  default = "172.33.1.9/24"
+}
+
+
+
+////////////////////////////////
+
+
+
 
 variable "ssh_key_name" {
   default = "default"

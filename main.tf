@@ -16,8 +16,18 @@ resource "ibm_is_vpc" "vpc1" {
   address_prefix_management = "manual"
 }
 
+////////////////
+//Create VPC CIDR and Zone Prefixes
+///////////////
 
-//security group creation for web tier
+
+
+
+
+
+
+
+//--- security group creation for web tier
 
 
 resource "ibm_is_security_group" "public_facing_sg" {
@@ -57,7 +67,7 @@ resource "ibm_is_security_group_rule" "public_facing_icmp" {
 
 
 
-//security group creation for db tier
+//--- security group creation for db tier
 
 resource "ibm_is_security_group" "private_facing_sg" {
     name = "${var.vpc_name}-private-facing-sg"
@@ -65,28 +75,41 @@ resource "ibm_is_security_group" "private_facing_sg" {
 }
 
 
+
 /////////////////////
 //   ZONE 1 (LEFT)
 /////////////////////
 
+//--- address prexix for VPC
 
-resource "ibm_is_vpc_address_prefix" "vpc-ap1" {
-  name = "vpc-ap1"
+resource "ibm_is_vpc_address_prefix" "zone1-cidr" {
+  name = "vpc-zone1-cidr"
   zone = "${var.zone1}"
   vpc  = "${ibm_is_vpc.vpc1.id}"
   cidr = "${var.zone1_cidr}"
 }
 
-resource "ibm_is_subnet" "subnet1" {
-  name            = "subnet1"
+//--- subnets ofr web and db tier
+
+resource "ibm_is_subnet" "websubnet1" {
+  name            = "web-subnet-zone1"
   vpc             = "${ibm_is_vpc.vpc1.id}"
   zone            = "${var.zone1}"
-  ipv4_cidr_block = "${var.zone1_cidr}"
-  depends_on      = ["ibm_is_vpc_address_prefix.vpc-ap1"]
+  ipv4_cidr_block = "${var.web_subnet_zone1}"
+  depends_on      = ["ibm_is_vpc_address_prefix.zone1-cidr"]
 }
 
 
-//Web Server(s)
+resource "ibm_is_subnet" "dbsubnet1" {
+  name            = "db-subnet-zone1"
+  vpc             = "${ibm_is_vpc.vpc1.id}"
+  zone            = "${var.zone1}"
+  ipv4_cidr_block = "${var.db_subnet_zone1}"
+  depends_on      = ["ibm_is_vpc_address_prefix.zone1-cidr"]
+}
+
+
+//--- Web Server(s)
 
 resource "ibm_is_instance" "web-instancez01" {
   count   = "${var.web_server_count}"
@@ -95,7 +118,7 @@ resource "ibm_is_instance" "web-instancez01" {
   profile = "${var.profile}"
 
   primary_network_interface = {
-    subnet = "${ibm_is_subnet.subnet1.id}"
+    subnet = "${ibm_is_subnet.websubnet1.id}"
     security_groups = ["${ibm_is_security_group.public_facing_sg.id}"]
   }
   vpc  = "${ibm_is_vpc.vpc1.id}"
@@ -106,9 +129,9 @@ resource "ibm_is_instance" "web-instancez01" {
 
 
 
-//DB Server(s) 
+//--- DB Server(s) 
 
-/*
+
 resource "ibm_is_instance" "db-instancez01" {
   count   = "${var.db_server_count}"
   name    = "dbz01-${count.index+1}"
@@ -116,19 +139,11 @@ resource "ibm_is_instance" "db-instancez01" {
   profile = "${var.profile}"
 
   primary_network_interface = {
-    subnet = "${ibm_is_subnet.subnet1.id}"
+    subnet = "${ibm_is_subnet.dbsubnet1.id}"
+    security_groups = ["${ibm_is_security_group.private_facing_sg.id}"]
   }
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
   //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
 }
-
-*/
-
-
-
-
-/////////////
-// LBaaS
-////////////
