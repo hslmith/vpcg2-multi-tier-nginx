@@ -21,7 +21,14 @@ resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
     vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
-
+resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp22" {
+    group = "${ibm_is_security_group.fip_public_facing_sg_web_admin.id}"
+    direction = "inbound"
+    remote = "0.0.0.0/0"
+    tcp = {
+      port_min = "22"
+      port_max = "22"
+    }
 
 
 /////////////////////
