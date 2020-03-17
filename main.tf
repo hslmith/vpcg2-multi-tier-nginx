@@ -16,8 +16,12 @@ resource "ibm_is_vpc" "vpc1" {
   address_prefix_management = "manual"
 }
 
+
+//security group creation for web tier
+
+
 resource "ibm_is_security_group" "public_facing_sg" {
-    name = "${var.vpc_nanme}-public-facing-sg1"
+    name = "${var.vpc_name}-public-facing-sg1"
     vpc  = "${ibm_is_vpc.vpc1.id}"
 }
 
@@ -51,8 +55,12 @@ resource "ibm_is_security_group_rule" "public_facing_icmp" {
     }
 }
 
+
+
+//security group creation for db tier
+
 resource "ibm_is_security_group" "private_facing_sg" {
-    name = "${var.vpc_nanme}-private-facing-sg"
+    name = "${var.vpc_name}-private-facing-sg"
     vpc = "${ibm_is_vpc.vpc1.id}"
 }
 
