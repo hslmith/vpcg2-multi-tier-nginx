@@ -38,7 +38,7 @@ variable "web_server_count" {
   default = 2
 }
 
-ariable "db_server_count" {
+variable "db_server_count" {
   default = 1
 }
 
