@@ -1,6 +1,6 @@
-/*////////////////
+////////////////
 //SSH Key 
-////////////////*/
+////////////////
 
 data "ibm_is_ssh_key" "sshkey1" {
   name = "${var.ssh_key_name}"
@@ -16,7 +16,7 @@ resource "ibm_is_vpc" "vpc1" {
   address_prefix_management = "manual"
 }
 
-
+/*
 resource "ibm_is_security_group" "fip_public_facing_sg_web_admin" {
     name = "fip_public_facing_sg_web_admin"
     vpc = "${ibm_is_vpc.vpc1.id}"
@@ -48,7 +48,7 @@ resource "ibm_is_security_group" "private_facing_sg_db_admin" {
     vpc = "${ibm_is_vpc.vpc1.id}"
 }
 
-
+*/
 
 
 /////////////////////
