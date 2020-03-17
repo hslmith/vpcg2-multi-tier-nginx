@@ -43,8 +43,8 @@ resource "ibm_is_security_group_rule" "fip_public_facing_sg_tcp80" {
 }
 
 resource "ibm_is_security_group_network_interface_attachment" "sgnic1" {
-  security_group    = ${ibm_is_security_group.public-facing-sg1.id}
-  network_interface = ${ibm_is_instance.web-instancez01.*.primary_network_interface.0.id}
+  security_group    = "${ibm_is_security_group.public-facing-sg1.id}""
+  network_interface = "${ibm_is_instance.web-instancez01.*.primary_network_interface.0.id}""
 }
 
 resource "ibm_is_security_group" "private_facing_sg_db_admin" {
