@@ -101,3 +101,15 @@ variable "profile" {
   default = "cx2-2x4"
   description = "Instance profile to be used for virtual instances"
 }
+
+
+// LBaaS Define
+
+
+variable "webapptier-lb-connections" {
+  default = 2000
+}
+
+variable "webapptier-lb-algorithm" {
+  default = "round_robin"
+}
