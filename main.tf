@@ -110,7 +110,7 @@ resource "ibm_is_subnet" "dbsubnet1" {
   vpc             = "${ibm_is_vpc.vpc1.id}"
   zone            = "${var.zone1}"
   ipv4_cidr_block = "${var.db_subnet_zone1}"
-  depends_on      = ["ibm_is_vpc_address_prefix.zone1-cidr"]
+  depends_on      = ["ibm_is_vpc_address_prefix.prefix_z1"]
 }
 
 
