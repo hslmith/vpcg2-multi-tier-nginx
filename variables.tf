@@ -106,10 +106,10 @@ variable "profile" {
 // LBaaS Define
 
 
-variable "webapptier-lb-connections" {
+variable "webtier-lb-connections" {
   default = 2000
 }
 
-variable "webapptier-lb-algorithm" {
+variable "webtier-lb-algorithm" {
   default = "round_robin"
 }
