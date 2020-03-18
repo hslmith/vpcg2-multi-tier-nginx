@@ -16,7 +16,7 @@ resource "ibm_is_lb_listener" "webtier-lb-listener" {
 }
 
 
-resource "ibm_is_lb_pool" "webapptier-lb-pool" {
+resource "ibm_is_lb_pool" "webtier-lb-pool" {
   lb                 = "${ibm_is_lb.webtier-lb.id}"
   name               = "${var.vpc_name}-webtier-lb-pool1"
   protocol           = "http"
