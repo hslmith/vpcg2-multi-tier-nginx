@@ -39,12 +39,12 @@ variable "cis_resource_group" {
 ////////////////
 
 
-variable "zone1_cidr" {
+variable "zone1_prefix" {
   default = "172.33.1.0/21"
   description = "CIDR block to be used for zone 1"
 }
 
-variable "zone2_cidr" {
+variable "zone2_prefix" {
   default = "172.33.8.0/21"
   description = "CIDR block to be used for zone 2"
 }
