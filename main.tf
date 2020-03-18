@@ -87,11 +87,11 @@ resource "ibm_is_security_group" "private_facing_sg" {
 
 //--- address prexix for VPC
 
-resource "ibm_is_vpc_address_prefix" "zone1-cidr" {
+resource "ibm_is_vpc_address_prefix" "prefix_z1" {
   name = "vpc-zone1-cidr"
   zone = "${var.zone1}"
   vpc  = "${ibm_is_vpc.vpc1.id}"
-  cidr = "${var.zone1_cidr}"
+  cidr = "${var.zone1_prefix}"
 }
 
 //--- subnets for web and db tier
