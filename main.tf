@@ -65,6 +65,11 @@ resource "ibm_is_security_group_rule" "public_facing_icmp" {
     }
 }
 
+resource "ibm_is_security_group_rule" "public_facing_egress" {
+    group = "${ibm_is_security_group.public_facing_sg.id}"
+    direction = "outbound"
+    remote = "0.0.0.0/0"
+}
 
 
 //--- security group creation for db tier
@@ -89,7 +94,7 @@ resource "ibm_is_vpc_address_prefix" "zone1-cidr" {
   cidr = "${var.zone1_cidr}"
 }
 
-//--- subnets ofr web and db tier
+//--- subnets for web and db tier
 
 resource "ibm_is_subnet" "websubnet1" {
   name            = "web-subnet-zone1"
@@ -124,7 +129,7 @@ resource "ibm_is_instance" "web-instancez01" {
   vpc  = "${ibm_is_vpc.vpc1.id}"
   zone = "${var.zone1}"
   keys = ["${data.ibm_is_ssh_key.sshkey1.id}"]
-  //user_data = "${data.template_cloudinit_config.cloud-init-apptier.rendered}"
+  //user_data = "${data.template_cloudinit_config.cloud-init-web.rendered}"
 }
 
 
