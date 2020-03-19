@@ -81,6 +81,26 @@ resource "ibm_is_security_group" "private_facing_sg" {
 
 
 
+
+///////////////////////////////////////
+// Public Gateway's for Zone 1 & Zone 2
+////////////////////////////////////////
+
+
+resource "ibm_is_public_gateway" "pubgw-zone1" {
+  name = "${var.vpc_name}-${var.zone1}-pubgw"
+  vpc  = "${ibm_is_vpc.vpc1.id}"
+  zone = "${var.zone1}"
+}
+
+resource "ibm_is_public_gateway" "pubgw-zone2" {
+  name = "${var.vpc_name}-${var.zone2}-pubgw"
+  vpc  = "${ibm_is_vpc.vpc1.id}"
+  zone = "${var.zone2}"
+}
+
+
+
 /////////////////////
 //   ZONE 1 (LEFT)
 /////////////////////
